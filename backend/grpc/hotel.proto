@@ -1,0 +1,24 @@
+
+syntax = "proto3";
+package hotel;
+option java_package = "com.example.hotel.grpc";
+option java_multiple_files = true;
+
+message Client { int64 id = 1; string nom = 2; string prenom = 3; string email = 4; string telephone = 5; }
+message Chambre { int64 id = 1; string type = 2; double prix = 3; bool disponible = 4; }
+message Reservation {
+  int64 id = 1;
+  Client client = 2;
+  Chambre chambre = 3;
+  string dateDebut = 4;
+  string dateFin = 5;
+  string preferences = 6;
+}
+message Id { int64 id = 1; }
+message Created { Reservation reservation = 1; }
+service ReservationService {
+  rpc CreateReservation(Reservation) returns (Created);
+  rpc GetReservation(Id) returns (Reservation);
+  rpc UpdateReservation(Reservation) returns (Created);
+  rpc DeleteReservation(Id) returns (google.protobuf.BoolValue);
+}
